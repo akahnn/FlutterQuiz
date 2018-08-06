@@ -1,11 +1,34 @@
 import 'package:flutter/material.dart';
 
+
+
+
 class QuestionText extends StatefulWidget {
+
+  final String _question; 
+  final int _questionNumber; 
+
+  QuestionText(this._question, this._questionNumber); 
+
+
   @override
   State createState() => new QuestionTextState();
 }
 
-class QuestionTextState extends State<QuestionText>{
+class QuestionTextState extends State<QuestionText> with SingleTickerProviderStateMixin {
+
+Animation<double> _fontSizeAnimation;
+AnimationController _fontSizeAnimationController; 
+
+@override
+void initState() {
+  super.initState();
+  _fontSizeAnimationController = new AnimationController(duration: new Duration(milliseconds: 500), vsync: this); //vsync handles animations that go out sides the screen. 
+  _fontSizeAnimation = new CurvedAnimation(parent:_fontSizeAnimationController, curve: Curves.linear);
+  _fontSizeAnimation.addListener( () => this.setState(() {})); //sets state everytime font updates
+  _fontSizeAnimationController.forward();
+}
+
   @override
   Widget build(BuildContext context){
       return new Material (
@@ -13,7 +36,8 @@ class QuestionTextState extends State<QuestionText>{
           child: new Padding (
             padding: new EdgeInsets.all(15.0),
             child: new Center (
-                  child: new Text("Questions 1 : Leice is the best!!"),
+                  child: new Text("Question #" + widget._questionNumber.toString() + widget._question.toString(), 
+                  style: new TextStyle(fontSize: _fontSizeAnimation.value * 15.0)),
           ),
           ),
           );

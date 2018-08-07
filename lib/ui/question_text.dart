@@ -29,6 +29,18 @@ void initState() {
   _fontSizeAnimationController.forward();
 }
 
+ @override
+  void didUpdateWidget(QuestionText oldWidget) { //eveytime the widget updates... 
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget._question != widget._question){
+      _fontSizeAnimationController.reset();
+      _fontSizeAnimationController.forward();
+    }
+
+  }
+
   @override
   Widget build(BuildContext context){
       return new Material (
@@ -36,7 +48,7 @@ void initState() {
           child: new Padding (
             padding: new EdgeInsets.all(15.0),
             child: new Center (
-                  child: new Text("Question #" + widget._questionNumber.toString() + widget._question.toString(), 
+                  child: new Text(widget._question.toString(), 
                   style: new TextStyle(fontSize: _fontSizeAnimation.value * 15.0)),
           ),
           ),
